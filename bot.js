@@ -16,13 +16,7 @@ try {
   installYtdl();
 }
 
-fs.readdir("./events", (_err, files) => {
-  // Rest of your code for event handling...
-});
 
-fs.readdir("./events/player", (_err, files) => {
-  // Rest of your code for player event handling...
-});
 
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const { DisTube } = require("distube");
