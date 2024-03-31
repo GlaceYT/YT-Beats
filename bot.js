@@ -1,23 +1,28 @@
-const { exec } = require('child_process');
+const installYtdl = () => {
+  try {
+    console.log("Installing yt-dlp...");
+    execSync("npm install @distube/yt-dlp");
+    console.log("yt-dlp installed successfully!");
+  } catch (error) {
+    console.error("Error installing yt-dlp:", error);
+  }
+};
 
-// Function to install yt-dlp
-function installYtDlp() {
-  console.log('Installing yt-dlp...');
-  exec('npm install @distube/yt-dlp@latest', (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error installing yt-dlp: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`yt-dlp installed successfully`);
-  });
+// Check if yt-dlp module exists, if not, install it
+try {
+  require.resolve("@distube/yt-dlp");
+} catch (error) {
+  console.log("yt-dlp module not found. Installing...");
+  installYtdl();
 }
 
-// Call the function to install yt-dlp when the bot starts up
-installYtDlp();
+fs.readdir("./events", (_err, files) => {
+  // Rest of your code for event handling...
+});
+
+fs.readdir("./events/player", (_err, files) => {
+  // Rest of your code for player event handling...
+});
 
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const { DisTube } = require("distube");
