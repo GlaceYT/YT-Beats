@@ -1,3 +1,4 @@
+const { exec } = require("child_process");
 const installYtdl = () => {
   try {
     console.log("Installing yt-dlp...");
