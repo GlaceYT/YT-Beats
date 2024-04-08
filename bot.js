@@ -1,24 +1,3 @@
-const { exec } = require("child_process");
-const installYtdl = () => {
-  try {
-    console.log("Installing yt-dlp...");
-    execSync("npm install @distube/yt-dlp");
-    console.log("yt-dlp installed successfully!");
-  } catch (error) {
-    console.error("Error installing yt-dlp:", error);
-  }
-};
-
-// Check if yt-dlp module exists, if not, install it
-try {
-  require.resolve("@distube/yt-dlp");
-} catch (error) {
-  console.log("yt-dlp module not found. Installing...");
-  installYtdl();
-}
-
-
-
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
